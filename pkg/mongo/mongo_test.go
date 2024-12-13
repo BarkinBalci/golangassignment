@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"os"
 	"testing"
 	"time"
 
@@ -12,9 +11,6 @@ import (
 const testDBName = "test_db"
 
 func setupTestClient(t *testing.T) *Client {
-	os.Setenv("MONGODB_URI", "mongodb://localhost:27017")
-	os.Setenv("DB_NAME", testDBName)
-
 	client, err := NewClient()
 	if err != nil {
 		t.Fatalf("Failed to create MongoDB client: %v", err)

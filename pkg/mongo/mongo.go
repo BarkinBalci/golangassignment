@@ -17,6 +17,7 @@ type Client struct {
 	db     *mongo.Database
 }
 
+// NewClient establishes a connection to the database
 func NewClient() (*Client, error) {
 	mongoURI := os.Getenv("MONGODB_URI")
 	if mongoURI == "" {
@@ -48,18 +49,21 @@ func NewClient() (*Client, error) {
 	return &Client{client: client, db: db}, nil
 }
 
+// Record represents a data record from the database
 type Record struct {
 	Key        string    `bson:"key" json:"key"`
 	CreatedAt  time.Time `bson:"createdAt" json:"createdAt"`
 	TotalCount int       `json:"totalCount"`
 }
 
+// FilteredRecords represents a structured response containing a list of Records
 type FilteredRecords struct {
 	Code    int      `json:"code"`
 	Msg     string   `json:"msg"`
 	Records []Record `json:"records"`
 }
 
+// FetchData retrieves records from the collection based on filters
 func (m *Client) FetchData(startDate, endDate string, minCount, maxCount int) ([]Record, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
