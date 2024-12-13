@@ -7,14 +7,14 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN go build -o /bin/api ./cmd/api/main.go
+RUN go build -o /app/api ./cmd/api/main.go
 
-FROM alpine:latest
+FROM golang:1.23.4-bookworm
 
 WORKDIR /app
 
-COPY --from=builder /bin/api /bin/api
+COPY --from=builder /app/api /app/api
 
 EXPOSE 8080
 
-CMD ["/bin/api"]
+CMD ["/app/api"]
