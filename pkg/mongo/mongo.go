@@ -60,7 +60,7 @@ type FilteredRecords struct {
 	Records []Record `json:"records"`
 }
 
-func (m *Client) FetchData(startDate, endDate string, minCount, maxCount int) (*FilteredRecords, error) {
+func (m *Client) FetchData(startDate, endDate string, minCount, maxCount int) ([]Record, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -104,7 +104,7 @@ func (m *Client) FetchData(startDate, endDate string, minCount, maxCount int) (*
 			"$project": bson.M{
 				"_id":        0,
 				"key":        1,
-				"createdAt":  1, // Keeping 'createdAt' as it is already a date type
+				"createdAt":  1,
 				"totalCount": 1,
 			},
 		},
@@ -137,10 +137,5 @@ func (m *Client) FetchData(startDate, endDate string, minCount, maxCount int) (*
 		return nil, fmt.Errorf("error during cursor iteration: %w", err)
 	}
 
-	filteredResponse := &FilteredRecords{
-		Code:    0,
-		Msg:     "Success",
-		Records: results,
-	}
-	return filteredResponse, nil
+	return results, nil
 }
