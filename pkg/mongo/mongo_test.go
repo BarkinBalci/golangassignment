@@ -20,10 +20,7 @@ func setupTestClient(t *testing.T) *Client {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		err := client.client.Database(testDBName).Drop(ctx)
-		if err != nil {
-			t.Errorf("Failed to drop test database: %v", err)
-		}
+		client.db.Collection("records").DeleteMany(ctx, bson.M{})
 
 		err = client.client.Disconnect(ctx)
 		if err != nil {
@@ -50,9 +47,9 @@ func TestFetchData(t *testing.T) {
 	client := setupTestClient(t)
 
 	testRecords := []interface{}{
-		bson.M{"key": "A", "createdAt": time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC), "counts": []int{1, 2, 3}},
+		bson.M{"key": "A", "createdAt": time.Date(2024, 1, 13, 0, 0, 0, 0, time.UTC), "counts": []int{1, 2, 3}},
 		bson.M{"key": "B", "createdAt": time.Date(2024, 1, 20, 0, 0, 0, 0, time.UTC), "counts": []int{4, 5}},
-		bson.M{"key": "C", "createdAt": time.Date(2024, 1, 25, 0, 0, 0, 0, time.UTC), "counts": []int{1}},
+		bson.M{"key": "C", "createdAt": time.Date(2024, 2, 28, 0, 0, 0, 0, time.UTC), "counts": []int{1}},
 	}
 	insertTestDocuments(t, client, testRecords)
 
@@ -78,8 +75,8 @@ func TestFetchData(t *testing.T) {
 		},
 		{
 			name:      "NoMatchingRecords",
-			startDate: "2024-01-15",
-			endDate:   "2024-01-25",
+			startDate: "2024-01-30",
+			endDate:   "2024-02-01",
 			minCount:  10,
 			maxCount:  20,
 			expected:  []Record{},
