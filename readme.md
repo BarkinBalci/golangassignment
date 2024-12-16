@@ -24,14 +24,14 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "endDate": "2023-02-02",
     "minCount": 2200,
     "maxCount": 3500
-}' http://3.72.47.193:8080/mongo
+}' http://35.159.169.213:8080/mongo
 ```
 
 ### Memory Endpoint
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"key": "active-user", "value": "john-doe"}' http://3.72.47.193:8080/memory
+curl -X POST -H "Content-Type: application/json" -d '{"key": "active-user", "value": "john-doe"}' http://35.159.169.213:8080/memory
 ```
 ```bash
-curl http://3.72.47.193:8080/memory?key=active-user
+curl http://35.159.169.213:8080/memory?key=active-user
 ```
