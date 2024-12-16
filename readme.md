@@ -14,7 +14,7 @@ docker build . -t golangassignment
 docker run -d -p 8080:8080 --env MONGODB_URI="" --env PORT=8080 --env DB_NAME="" golangassignment
 ```
 
-## Examples in Prod Env
+## Examples
 
 ### MongoDB Endpoint
 
@@ -31,6 +31,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"key": "active-user", "value": "john-doe"}' http://3.72.47.193:8080/memory
-
+```
+```bash
 curl http://3.72.47.193:8080/memory?key=active-user
 ```
